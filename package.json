@@ -1,0 +1,8 @@
+{
+  "name": "spanner-spammer",
+  "version": "0.1.0",
+  "main": "index.js",
+  "repository": "git@github.com:joestrong/spanner-spammer.git",
+  "author": "Joe Strong <joestrong@gmail.com>",
+  "license": "MIT"
+}
