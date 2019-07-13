@@ -7,9 +7,11 @@
   "license": "MIT",
   "dependencies": {
     "babylonjs": "^4.0.3",
-    "ts-loader": "^6.0.4"
+    "cannon": "^0.6.2"
   },
   "devDependencies": {
+    "@types/cannon": "^0.1.4",
+    "ts-loader": "^6.0.4",
     "typescript": "^3.5.3",
     "webpack": "^4.35.3",
     "webpack-cli": "^3.3.5",
