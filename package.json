@@ -4,5 +4,15 @@
   "main": "index.js",
   "repository": "git@github.com:joestrong/spanner-spammer.git",
   "author": "Joe Strong <joestrong@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "babylonjs": "^4.0.3"
+  },
+  "devDependencies": {
+    "webpack": "^4.35.3",
+    "webpack-cli": "^3.3.5"
+  },
+  "scripts": {
+    "build": "webpack -o index.min.js index.js"
+  }
 }
