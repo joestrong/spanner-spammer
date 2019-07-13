@@ -9,10 +9,12 @@
     "babylonjs": "^4.0.3"
   },
   "devDependencies": {
+    "watch": "^1.0.2",
     "webpack": "^4.35.3",
     "webpack-cli": "^3.3.5"
   },
   "scripts": {
-    "build": "webpack -o index.min.js index.js"
+    "build": "webpack -o index.min.js src/index.js",
+    "watch": "watch 'yarn build' src"
   }
 }
