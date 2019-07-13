@@ -46,11 +46,11 @@ const createScene = () => {
   const ground = BABYLON.Mesh.CreateGround('ground1', 12, 12, 2, scene, false);
   ground.physicsImpostor = new BABYLON.PhysicsImpostor(ground, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 0.9 }, scene);
 
-  canvas.onclick = function() {
-    canvas.requestPointerLock();
-  };
-
   scene.onPointerDown = (e) => {
+    if (document.pointerLockElement !== canvas) {
+      return;
+    }
+
     if (e.button === MOUSE_LEFT) {
       const spanner = BABYLON.Mesh.CreateSphere('spanner', 16, 2, scene, false, BABYLON.Mesh.FRONTSIDE);
       spanner.position.x = camera.position.x;
@@ -62,6 +62,10 @@ const createScene = () => {
           .add(camera.getForwardRay().direction.scale(THROW_POWER))
       );
     }
+  };
+
+  canvas.onclick = function() {
+    canvas.requestPointerLock();
   };
 
   return scene;
