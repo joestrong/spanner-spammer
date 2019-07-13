@@ -18,9 +18,13 @@ const createScene = () => {
   const physicsPlugin = new BABYLON.CannonJSPlugin(true, 10, CANNON);
   scene.enablePhysics(gravityVector, physicsPlugin);
 
-  const camera = new BABYLON.FreeCamera('camera1', new BABYLON.Vector3(0, 5, -10), scene);
+  const camera = new BABYLON.UniversalCamera('camera1', new BABYLON.Vector3(0, 5, -10), scene);
   camera.setTarget(BABYLON.Vector3.Zero());
   camera.attachControl(canvas, false);
+  camera.keysUp = [];
+  camera.keysDown = [];
+  camera.keysLeft = [];
+  camera.keysRight = [];
 
   const light = new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(0, 1, 0), scene);
 
@@ -30,6 +34,10 @@ const createScene = () => {
 
   const ground = BABYLON.Mesh.CreateGround('ground1', 12, 12, 2, scene, false);
   ground.physicsImpostor = new BABYLON.PhysicsImpostor(ground, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 0.9 }, scene);
+
+  canvas.onclick = function() {
+    canvas.requestPointerLock();
+  };
 
   scene.onPointerDown = (e) => {
     if (e.button === MOUSE_LEFT) {
