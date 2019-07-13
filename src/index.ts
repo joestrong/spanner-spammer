@@ -7,6 +7,10 @@ const engine = new BABYLON.Engine(canvas, true, {
   stencil: true
 });
 
+const MOUSE_LEFT = 0;
+
+const THROW_POWER = 20;
+
 const createScene = () => {
   const scene = new BABYLON.Scene(engine);
 
@@ -26,6 +30,20 @@ const createScene = () => {
 
   const ground = BABYLON.Mesh.CreateGround('ground1', 12, 12, 2, scene, false);
   ground.physicsImpostor = new BABYLON.PhysicsImpostor(ground, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 0.9 }, scene);
+
+  scene.onPointerDown = (e) => {
+    if (e.button === MOUSE_LEFT) {
+      const spanner = sphere.createInstance("spanner");
+      spanner.position.x = camera.position.x;
+      spanner.position.y = camera.position.y;
+      spanner.position.z = camera.position.z;
+      spanner.physicsImpostor = new BABYLON.PhysicsImpostor(spanner, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 0.25, restitution: 0 }, scene);
+      spanner.physicsImpostor.setLinearVelocity(
+        (spanner.physicsImpostor.getLinearVelocity() || new BABYLON.Vector3(0, 0, 0))
+          .add(camera.getForwardRay().direction.scale(THROW_POWER))
+      );
+    }
+  };
 
   return scene;
 };
