@@ -1,4 +1,5 @@
 import * as BABYLON from 'babylonjs';
+import 'babylonjs-loaders';
 import CANNON from 'cannon';
 
 const canvas = <HTMLCanvasElement> document.getElementById('renderCanvas');
@@ -10,6 +11,7 @@ const engine = new BABYLON.Engine(canvas, true, {
 const MOUSE_LEFT = 0;
 
 const THROW_POWER = 20;
+const THROW_SPIN = 10;
 
 const createScene = () => {
   const scene = new BABYLON.Scene(engine);
@@ -46,21 +48,29 @@ const createScene = () => {
   const ground = BABYLON.Mesh.CreateGround('ground1', 12, 12, 2, scene, false);
   ground.physicsImpostor = new BABYLON.PhysicsImpostor(ground, BABYLON.PhysicsImpostor.BoxImpostor, { mass: 0, restitution: 0.9 }, scene);
 
+  let spanner: BABYLON.Mesh;
+  BABYLON.SceneLoader.ImportMesh(["Spanner"], "./models/", 'spanner.babylon', scene, function (meshes: BABYLON.AbstractMesh[]) {
+    spanner = <BABYLON.Mesh> meshes[0];
+  });
+
   scene.onPointerDown = (e) => {
     if (document.pointerLockElement !== canvas) {
       return;
     }
 
     if (e.button === MOUSE_LEFT) {
-      const spanner = BABYLON.Mesh.CreateSphere('spanner', 16, 2, scene, false, BABYLON.Mesh.FRONTSIDE);
-      spanner.position.x = camera.position.x;
-      spanner.position.y = camera.position.y;
-      spanner.position.z = camera.position.z;
-      spanner.physicsImpostor = new BABYLON.PhysicsImpostor(spanner, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 0.25, restitution: 0 }, scene);
-      spanner.physicsImpostor.setLinearVelocity(
-        (spanner.physicsImpostor.getLinearVelocity() || new BABYLON.Vector3(0, 0, 0))
-          .add(camera.getForwardRay().direction.scale(THROW_POWER))
+      const cameraDirection = camera.getForwardRay().direction;
+      const projectile = spanner.createInstance('spanner');
+      projectile.position = camera.position;
+      projectile.physicsImpostor = new BABYLON.PhysicsImpostor(projectile, BABYLON.PhysicsImpostor.SphereImpostor, { mass: 0.25, restitution: 0 }, scene);
+      projectile.rotationQuaternion = BABYLON.Quaternion.RotationYawPitchRoll(0, Math.PI/2, (camera.rotation.y * -1) + Math.PI/2);
+      projectile.translate(BABYLON.Axis.Y, -5);
+      projectile.physicsImpostor.setLinearVelocity(
+        (projectile.physicsImpostor.getLinearVelocity() || new BABYLON.Vector3(0, 0, 0))
+          .add(cameraDirection.scale(THROW_POWER))
       );
+      let throwSpin = new BABYLON.Vector3(cameraDirection.z, 0, (cameraDirection.x * -1)).scale(THROW_SPIN);
+      projectile.physicsImpostor.setAngularVelocity(throwSpin);
     }
   };
 
