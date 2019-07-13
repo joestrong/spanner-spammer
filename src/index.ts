@@ -1,8 +1,6 @@
 import * as BABYLON from 'babylonjs';
 import CANNON from 'cannon';
 
-window.CANNON = CANNON;
-
 const canvas = <HTMLCanvasElement> document.getElementById('renderCanvas');
 const engine = new BABYLON.Engine(canvas, true, {
   preserveDrawingBuffer: true,
@@ -13,7 +11,7 @@ const createScene = function(){
   const scene = new BABYLON.Scene(engine);
 
   const gravityVector = new BABYLON.Vector3(0,-9.81, 0);
-  const physicsPlugin = new BABYLON.CannonJSPlugin();
+  const physicsPlugin = new BABYLON.CannonJSPlugin(true, 10, CANNON);
   scene.enablePhysics(gravityVector, physicsPlugin);
 
   const camera = new BABYLON.FreeCamera('camera1', new BABYLON.Vector3(0, 5, -10), scene);
