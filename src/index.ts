@@ -7,7 +7,7 @@ const engine = new BABYLON.Engine(canvas, true, {
   stencil: true
 });
 
-const createScene = function(){
+const createScene = () => {
   const scene = new BABYLON.Scene(engine);
 
   const gravityVector = new BABYLON.Vector3(0,-9.81, 0);
@@ -31,9 +31,9 @@ const createScene = function(){
 };
 
 const scene = createScene();
-engine.runRenderLoop(function(){
+engine.runRenderLoop(() => {
   scene.render();
 });
-window.addEventListener('resize', function(){
+window.addEventListener('resize', () => {
   engine.resize();
 });
