@@ -9,7 +9,7 @@ const engine = new BABYLON.Engine(canvas, true, {
 const createScene = function(){
   const scene = new BABYLON.Scene(engine);
 
-  const camera = new BABYLON.FreeCamera('camera1', new BABYLON.Vector3(0, 0, -10), scene);
+  const camera = new BABYLON.FreeCamera('camera1', new BABYLON.Vector3(0, 5, -10), scene);
   camera.setTarget(BABYLON.Vector3.Zero());
   camera.attachControl(canvas, false);
 
