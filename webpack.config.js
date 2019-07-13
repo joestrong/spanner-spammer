@@ -3,7 +3,7 @@ const path = require('path');
 module.exports = {
   mode: 'development',
   entry: {
-    index: './src/index.js'
+    index: './src/index.ts'
   },
   devtool: 'inline-source-map',
   devServer: {
@@ -13,5 +13,12 @@ module.exports = {
     filename: '[name].bundle.js',
     path: path.resolve(__dirname),
     publicPath: '/'
+  },
+  module: {
+    rules: [{
+      test: /\.tsx?$/,
+      loader: 'ts-loader',
+      exclude: /node_modules/
+    }]
   }
 };
